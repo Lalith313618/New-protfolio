@@ -1,0 +1,57 @@
+<section class="about-section">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="section-tag">About Me</span>
+      <h2>Professional Summary</h2>
+    </div>
+
+    <div class="about-grid">
+      <!-- Summary Card -->
+      <div class="card summary-card reveal-on-scroll stagger-1">
+        <h3>Career Goal & Overview</h3>
+        <p>
+          Dedicated and detail-oriented B.Com (Computer Applications) graduate seeking an entry-level opportunity in <strong>Software Development</strong>, <strong>Frontend Development</strong>, <strong>IT Support</strong>, or <strong>Technical Support</strong>.
+        </p>
+        <p>
+          Possess practical knowledge of <strong>HTML, CSS, JavaScript, React.js, Angular, Node.js, Express.js, MongoDB, and REST APIs</strong>, with hands-on experience developing responsive, user-friendly web applications.
+        </p>
+        <p>
+          Demonstrated strong problem-solving and troubleshooting abilities through professional internships at <strong>BLP Industry.ai</strong> and <strong>QCerebrum Software Solutions</strong>, with a constant drive to learn emerging technologies and contribute effectively to high-performing teams.
+        </p>
+      </div>
+
+      <!-- Strengths & Languages Dual Column -->
+      <div class="side-column reveal-on-scroll stagger-2">
+        <!-- Strengths Card -->
+        <div class="card strengths-card">
+          <h3>Additional Strengths</h3>
+          <ul class="strengths-list">
+            <li *ngFor="let strength of strengths">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>{{ strength }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Languages Card -->
+        <div class="card languages-card">
+          <h3>Languages</h3>
+          <div class="languages-container">
+            <div *ngFor="let lang of languages" class="language-item">
+              <div class="lang-header">
+                <div class="lang-title-group">
+                  <i class="fa-solid fa-globe lang-icon"></i>
+                  <strong class="lang-name">{{ lang.name }}</strong>
+                </div>
+                <span class="lang-level-badge">{{ lang.level }}</span>
+              </div>
+              <div class="lang-progress-track">
+                <div class="lang-progress-bar" [style.width.%]="lang.percent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

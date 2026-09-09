@@ -1,0 +1,60 @@
+<section class="home-hero">
+  <div class="container hero-layout">
+    <div class="hero-text reveal-on-scroll">
+      <div class="badges-row">
+        <span class="role-badge">B.Com (Computer Applications)</span>
+      </div>
+
+      <h1 class="hero-title">{{ profile?.name || 'Lalith Kumar S' }}</h1>
+      <p class="hero-subtitle">Frontend MEAN Stack Developer</p>
+
+      <p class="hero-bio">
+        Dedicated and detail-oriented B.Com (Computer Applications) graduate seeking an entry-level opportunity in Software Development, Frontend Development, IT Support, or Technical Support. Possess practical knowledge of HTML, CSS, JavaScript, React.js, Angular, Node.js, Express.js, MongoDB, and REST APIs, with hands-on experience developing web applications. Strong problem-solving and troubleshooting abilities with a willingness to learn new technologies and contribute effectively to a collaborative team.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" (click)="scrollToSection('projects', $event)">
+          <i class="fa-solid fa-rocket"></i> View Projects
+        </a>
+        <button class="btn btn-secondary" (click)="triggerResumeModal($event)">
+          <i class="fa-solid fa-file-arrow-down"></i> View / Download Resume
+        </button>
+        <a href="#contact" class="btn btn-outline" (click)="scrollToSection('contact', $event)">
+          <i class="fa-solid fa-envelope"></i> Get In Touch
+        </a>
+      </div>
+
+      <!-- Social Profile Links (GitHub & LinkedIn) -->
+      <div class="hero-social-links">
+        <a href="https://github.com/Lalith313618" target="_blank" rel="noopener noreferrer" class="social-pill-btn github-pill" title="Open GitHub Profile (Lalith313618)">
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub</span>
+          <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/lalith-kumar-9034a4292/" target="_blank" rel="noopener noreferrer" class="social-pill-btn linkedin-pill" title="Open LinkedIn Profile">
+          <i class="fa-brands fa-linkedin"></i>
+          <span>LinkedIn</span>
+          <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+        </a>
+      </div>
+
+      <div class="contact-meta-row">
+        <span><i class="fa-solid fa-location-dot"></i> Ramanathapuram, Tamil Nadu</span>
+        <span><i class="fa-solid fa-envelope"></i> snslalith&#64;gmail.com</span>
+        <span><i class="fa-solid fa-phone"></i> +91 6380929051</span>
+      </div>
+    </div>
+
+    <div class="hero-avatar-box reveal-on-scroll stagger-2">
+      <div 
+        class="avatar-card" 
+        [class.is-clicked]="isImageClicked"
+        (click)="onAvatarClick()"
+        title="Click me!"
+      >
+        <div class="avatar-glow-overlay"></div>
+        <img src="assets/image.jpeg" alt="Profile Image" class="hero-profile-img" />
+      </div>
+    </div>
+  </div>
+</section>

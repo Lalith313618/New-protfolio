@@ -1,0 +1,51 @@
+<section class="experience-section">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="section-tag">Career History</span>
+      <h2>Experience & Education</h2>
+    </div>
+
+    <div class="exp-edu-layout">
+      <!-- Work Experience Block -->
+      <div class="card block-card reveal-on-scroll stagger-1">
+        <h3 class="block-title"><i class="fa-solid fa-briefcase"></i> Work Experience</h3>
+        
+        <div class="timeline-wrapper">
+          <div *ngFor="let exp of experiences" class="exp-item timeline-item">
+            <div class="timeline-node"></div>
+            <div class="item-header">
+              <div>
+                <h4 class="item-role">{{ exp.position }}</h4>
+                <p class="item-org">{{ exp.company }}</p>
+              </div>
+              <span class="item-date">{{ exp.duration }}</span>
+            </div>
+
+            <ul class="item-bullets">
+              <li *ngFor="let point of exp.highlights">{{ point }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education Block -->
+      <div class="card block-card reveal-on-scroll stagger-2">
+        <h3 class="block-title"><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+
+        <div class="timeline-wrapper">
+          <div *ngFor="let edu of education" class="edu-item timeline-item">
+            <div class="timeline-node"></div>
+            <div class="item-header">
+              <div>
+                <h4 class="item-role">{{ edu.degree }}</h4>
+                <p class="item-org">{{ edu.institution }}</p>
+              </div>
+              <span class="score-badge">{{ edu.score }}</span>
+            </div>
+            <p class="item-date-text"><i class="fa-regular fa-calendar"></i> {{ edu.period }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

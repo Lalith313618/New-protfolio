@@ -1,0 +1,58 @@
+<section class="skills-section">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="section-tag">Technical Skills</span>
+      <h2>Skills & Certifications</h2>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="skills-filter-row reveal-on-scroll stagger-1">
+      <button class="filter-tab" [class.active]="selectedFilter === 'all'" (click)="setFilter('all')">
+        <i class="fa-solid fa-layer-group"></i> All Skills
+      </button>
+      <button class="filter-tab" [class.active]="selectedFilter === 'frontend'" (click)="setFilter('frontend')">
+        <i class="fa-solid fa-code"></i> Frontend
+      </button>
+      <button class="filter-tab" [class.active]="selectedFilter === 'backend'" (click)="setFilter('backend')">
+        <i class="fa-solid fa-server"></i> Backend & DB
+      </button>
+      <button class="filter-tab" [class.active]="selectedFilter === 'api'" (click)="setFilter('api')">
+        <i class="fa-solid fa-network-wired"></i> API & Testing
+      </button>
+      <button class="filter-tab" [class.active]="selectedFilter === 'support'" (click)="setFilter('support')">
+        <i class="fa-solid fa-headset"></i> Support & Troubleshooting
+      </button>
+    </div>
+
+    <!-- Skill Categories Grid -->
+    <div class="skills-grid reveal-on-scroll stagger-2">
+      <div *ngFor="let category of filteredCategories" class="card skill-card">
+        <h3 class="category-title">{{ category.name }}</h3>
+
+        <div class="skill-tags-wrapper">
+          <span *ngFor="let item of category.skills" class="tag skill-pill">
+            <i *ngIf="item.icon" [class]="item.icon"></i>
+            <i *ngIf="!item.icon" class="fa-solid fa-circle-check"></i>
+            {{ item.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certifications List -->
+    <div class="certifications-box reveal-on-scroll stagger-3">
+      <h3 class="certs-section-title"><i class="fa-solid fa-award"></i> Certifications</h3>
+      <div class="certs-grid">
+        <div *ngFor="let cert of certifications" class="card cert-card">
+          <div class="cert-icon">
+            <i class="fa-solid fa-certificate"></i>
+          </div>
+          <div class="cert-details">
+            <h4>{{ cert.title }}</h4>
+            <p>{{ cert.issuer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
