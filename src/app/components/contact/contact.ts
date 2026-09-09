@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PortfolioService } from '../../services/portfolio';
@@ -21,7 +21,10 @@ export class ContactComponent {
   isSubmitting = false;
   submitStatus: { type: 'success' | 'error'; message: string } | null = null;
 
-  constructor(private portfolioService: PortfolioService) {}
+  constructor(
+    private portfolioService: PortfolioService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onSubmit() {
     if (!this.formData.name || !this.formData.email || !this.formData.message) {
@@ -31,17 +34,20 @@ export class ContactComponent {
 
     this.isSubmitting = true;
     this.submitStatus = null;
+    this.cdr.markForCheck();
 
     this.portfolioService.submitContactMessage(this.formData).subscribe({
       next: (res) => {
         this.isSubmitting = false;
-        this.submitStatus = { type: 'success', message: res.message || 'Message sent successfully!' };
+        this.submitStatus = { type: 'success', message: res?.message || 'Message sent successfully!' };
         this.formData = { name: '', email: '', subject: '', message: '' };
+        this.cdr.detectChanges();
       },
       error: () => {
         this.isSubmitting = false;
         this.submitStatus = { type: 'success', message: 'Thank you! Your message has been received.' };
         this.formData = { name: '', email: '', subject: '', message: '' };
+        this.cdr.detectChanges();
       }
     });
   }

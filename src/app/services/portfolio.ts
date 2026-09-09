@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, timeout } from 'rxjs/operators';
 
 export interface ProfileData {
   name: string;
@@ -349,6 +349,7 @@ export class PortfolioService {
 
   submitContactMessage(data: { name: string; email: string; subject: string; message: string }): Observable<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(`${this.baseUrl}/contact/message`, data).pipe(
+      timeout(5000),
       catchError(() => of({ success: true, message: 'Thank you for getting in touch! Your message has been received.' }))
     );
   }
