@@ -20,20 +20,12 @@ const experienceRoute = require('./routes/experience.route');
 const projectRoute = require('./routes/project.route');
 const contactRoute = require('./routes/contact.route');
 
+const cors = require('cors');
 const app = express();
 
+// Enable CORS for all requests
+app.use(cors());
 app.use(express.json());
-
-// Enable CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-    return res.status(200).json({});
-  }
-  next();
-});
 
 // Root health check route
 app.get('/', (req, res) => {
