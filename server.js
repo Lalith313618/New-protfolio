@@ -1,7 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const dns = require('dns');
+
 dotenv.config();
+
+// Ensure SRV DNS lookup succeeds on networks with restricted ISP DNS
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // Ignore if not supported in environment
+}
+
 const errorHandler = require('./middleware/error.middleware');
 const profileRoute = require('./routes/profile.route');
 const skillRoute = require('./routes/skill.route');

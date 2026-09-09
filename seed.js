@@ -1,6 +1,14 @@
 // Seed data based on Lalith Kumar S's updated resume
 require('dotenv').config();
+const dns = require('dns');
 const mongoose = require('mongoose');
+
+// Ensure SRV DNS lookup succeeds on networks with restricted ISP DNS
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // Ignore if not supported in environment
+}
 
 const Profile = require('./models/profile.model');
 const Skill = require('./models/skill.model');
