@@ -7,6 +7,9 @@
 
     <!-- Mobile Menu Control -->
     <div class="nav-controls-mobile">
+      <button type="button" class="mobile-landing-btn" (click)="triggerBackToLanding()" aria-label="Return to Landing Page" title="Back to Landing Page">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
       <button class="mobile-toggle" (click)="toggleMenu()" aria-label="Toggle Menu">
         <i class="fa-solid" [ngClass]="isMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
       </button>
@@ -36,6 +39,11 @@
       </ul>
 
       <div class="nav-actions">
+        <!-- Back to Landing Page Button -->
+        <button type="button" (click)="triggerBackToLanding()" class="btn btn-landing-nav" title="Back to Landing Page">
+          <i class="fa-solid fa-arrow-left"></i> <span>Landing</span>
+        </button>
+
         <!-- Resume Modal Trigger Link -->
         <button (click)="triggerResumeModal($event)" class="btn btn-secondary btn-sm" title="View / Download Resume">
           <i class="fa-solid fa-file-arrow-down"></i> Resume

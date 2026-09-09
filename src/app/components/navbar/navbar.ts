@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
   @Output() openResume = new EventEmitter<void>();
+  @Output() backToLanding = new EventEmitter<void>();
 
   isMenuOpen = false;
   activeSection = 'home';
@@ -79,6 +80,11 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  triggerBackToLanding(): void {
+    this.isMenuOpen = false;
+    this.backToLanding.emit();
+  }
+
   scrollToSection(sectionId: string, event: Event): void {
     event.preventDefault();
     this.isMenuOpen = false;
@@ -91,6 +97,9 @@ export class NavbarComponent implements OnInit {
         top: offsetTop,
         behavior: 'smooth'
       });
+      if (typeof window !== 'undefined' && window.history) {
+        window.history.replaceState({ view: 'portfolio' }, '', '#' + sectionId);
+      }
     }
   }
 

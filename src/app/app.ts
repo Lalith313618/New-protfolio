@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NavbarComponent } from './components/navbar/navbar';
@@ -28,10 +28,11 @@ import { LandingComponent } from './components/landing/landing';
     ContactComponent,
     FooterComponent
   ],
+  styleUrls: ['./app.css'],
   template: `
     <app-landing *ngIf="showLanding" (explore)="openPortfolio()"></app-landing>
-    <ng-container *ngIf="!showLanding">
-      <app-navbar (openResume)="showResumeModal = true"></app-navbar>
+    <div class="portfolio-view-wrapper" *ngIf="!showLanding">
+      <app-navbar (openResume)="showResumeModal = true" (backToLanding)="openLanding()"></app-navbar>
       <main>
         <app-home id="home" (openResume)="showResumeModal = true"></app-home>
         <app-about id="about"></app-about>
@@ -42,15 +43,98 @@ import { LandingComponent } from './components/landing/landing';
       </main>
       <app-resume *ngIf="showResumeModal" (closeModal)="showResumeModal = false"></app-resume>
       <app-footer></app-footer>
-    </ng-container>
+    </div>
   `
 })
-export class App {
+export class App implements OnInit, OnDestroy {
   showLanding = true;
   showResumeModal = false;
 
+  private onPopStateBound = (event: PopStateEvent) => this.handlePopState(event);
+
+  ngOnInit(): void {
+    if (typeof window === 'undefined') return;
+
+    const hash = window.location.hash.toLowerCase();
+    let sessionView: string | null = null;
+    try {
+      sessionView = sessionStorage.getItem('portfolio_active_view');
+    } catch {
+      // Storage access could fail in some restrictive sandbox modes
+    }
+
+    const portfolioHashes = ['#portfolio', '#home', '#about', '#skills', '#experience', '#projects', '#contact'];
+    const shouldShowPortfolio = sessionView === 'portfolio' || portfolioHashes.includes(hash);
+
+    if (shouldShowPortfolio) {
+      this.showLanding = false;
+      this.safeSetSession('portfolio_active_view', 'portfolio');
+      const targetHash = hash && hash !== '#landing' ? hash : '#portfolio';
+      window.history.replaceState({ view: 'portfolio' }, '', targetHash);
+
+      // If refreshed on a specific section anchor, scroll smoothly to it
+      if (hash && hash !== '#portfolio' && hash !== '#landing') {
+        setTimeout(() => {
+          const sectionId = hash.replace('#', '');
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const offsetTop = element.offsetTop - 70;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    } else {
+      this.showLanding = true;
+      this.safeSetSession('portfolio_active_view', 'landing');
+      window.history.replaceState({ view: 'landing' }, '', '#landing');
+    }
+
+    window.addEventListener('popstate', this.onPopStateBound);
+  }
+
+  ngOnDestroy(): void {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('popstate', this.onPopStateBound);
+    }
+  }
+
+  handlePopState(event: PopStateEvent): void {
+    const hash = window.location.hash.toLowerCase();
+    const state = event.state as { view?: string } | null;
+
+    if (state?.view === 'landing' || hash === '#landing' || (!hash && (!state || state.view !== 'portfolio'))) {
+      this.showLanding = true;
+      this.safeSetSession('portfolio_active_view', 'landing');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      this.showLanding = false;
+      this.safeSetSession('portfolio_active_view', 'portfolio');
+    }
+  }
+
   openPortfolio(): void {
     this.showLanding = false;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.safeSetSession('portfolio_active_view', 'portfolio');
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ view: 'portfolio' }, '', '#portfolio');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  openLanding(): void {
+    this.showLanding = true;
+    this.safeSetSession('portfolio_active_view', 'landing');
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ view: 'landing' }, '', '#landing');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  private safeSetSession(key: string, value: string): void {
+    try {
+      sessionStorage.setItem(key, value);
+    } catch {
+      // Ignore sessionStorage exceptions
+    }
   }
 }
