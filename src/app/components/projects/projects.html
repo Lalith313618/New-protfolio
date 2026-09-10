@@ -50,7 +50,7 @@
     role="dialog" 
     aria-modal="true" 
     [attr.aria-label]="selectedProject.title">
-    <div class="project-modal-dialog">
+    <div class="project-modal-dialog" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
       <div class="project-modal-header">
         <div class="project-modal-title-area">
