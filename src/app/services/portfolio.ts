@@ -60,7 +60,7 @@ export interface CertificationItem {
   providedIn: 'root'
 })
 export class PortfolioService {
-  private baseUrl = 'http://localhost:5000/api';
+  private baseUrl = 'https://portfolio-backend-4rdm.onrender.com/api';
 
   // Accurate data directly from Lalith Kumar S's updated resume
   private readonly fallbackProfile: ProfileData = {
