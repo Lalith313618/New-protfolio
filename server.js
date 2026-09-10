@@ -55,13 +55,21 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// Determine active MongoDB connection (local vs live Atlas)
+const dbMode = (process.env.DB_MODE || 'local').toLowerCase();
+const mongoUri = dbMode === 'live'
+  ? (process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI)
+  : (process.env.MONGODB_LOCAL_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portfolio');
+
+const dbLabel = dbMode === 'live' ? 'MongoDB Atlas (Live Cloud)' : 'MongoDB Local (Compass)';
+
 // Start server whether MongoDB connects or fails
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio', {
-  serverSelectionTimeoutMS: 3000,
+mongoose.connect(mongoUri, {
+  serverSelectionTimeoutMS: 5000,
 }).then(() => {
-  console.log('Connected to MongoDB');
+  console.log(`Connected to ${dbLabel}`);
 }).catch((err) => {
-  console.warn('MongoDB connection failed. Running with in-memory fallbacks:', err.message);
+  console.warn(`${dbLabel} connection failed. Running with in-memory fallbacks:`, err.message);
 });
 
 app.listen(PORT, () => {

@@ -19,10 +19,22 @@ const Contact = require('./models/contact.model');
 
 const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio', {
+    const isLiveArg = process.argv.includes('--live');
+    const isLocalArg = process.argv.includes('--local');
+    let dbMode = (process.env.DB_MODE || 'local').toLowerCase();
+    if (isLiveArg) dbMode = 'live';
+    if (isLocalArg) dbMode = 'local';
+
+    const mongoUri = dbMode === 'live'
+      ? (process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI)
+      : (process.env.MONGODB_LOCAL_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portfolio');
+
+    const dbLabel = dbMode === 'live' ? 'MongoDB Atlas (Live Cloud)' : 'MongoDB Local (Compass)';
+
+    await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 5000,
     });
-    console.log('Connected to MongoDB for seeding...');
+    console.log(`Connected to ${dbLabel} for seeding...`);
 
     // Clear existing data
     await Profile.deleteMany();
